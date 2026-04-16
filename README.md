@@ -1,204 +1,72 @@
-Welcome to your new TanStack Start app! 
+# TanStack Start with React Server Components
 
-# Getting Started
+[![Netlify Status](https://api.netlify.com/api/v1/badges/deploy-status/tanstack-start-rsc)](https://tanstack-start-rsc.netlify.app/)
 
-To run this application:
+**Live demo:** [tanstack-start-rsc.netlify.app](https://tanstack-start-rsc.netlify.app/)
+
+Exploring different RSC patterns with [TanStack Start](https://tanstack.com/start). This project tests how server components can be used alongside client components, using different composition and data-fetching strategies.
+
+## Scenarios
+
+### 1. Server Component via Loader (`/serverComponent`)
+
+A server component rendered with `renderServerComponent()` and loaded through TanStack Router's `loader`. The server-rendered HTML is fetched as part of route data and rendered directly on the client.
+
+### 2. Composite Server Component (`/compositeComponent`)
+
+Uses `createCompositeComponent()` to build a server component that accepts client-side children and component props. This demonstrates the "slots" pattern where the server defines the layout and the client fills in interactive pieces.
+
+### 3. Server Component via TanStack Query (`/componentByQuery`)
+
+Streams a server component using `renderToReadableStream()` and consumes it on the client with `createFromReadableStream()` inside a TanStack Query `queryFn`. This shows RSC working outside of router loaders.
+
+## Visual Indicators
+
+- **Red dashed border** = server-rendered component
+- **Blue dashed border** = client-rendered component
+
+## Next.js vs TanStack Start: Different takes on RSC
+
+Next.js App Router and TanStack Start both support React Server Components, but their philosophies differ significantly.
+
+### SSR vs RSC — an important distinction
+
+Both frameworks do **SSR by default**: the server renders the full page HTML, sends it to the browser, and React hydrates it. In that sense, both are server-first for *rendering*.
+
+The difference is in **component architecture**. RSC is not SSR — it's a separate mechanism where certain components *only* execute on the server and stream their output to the client as data, without ever being part of the client bundle.
+
+- **Next.js** is server-first for both rendering (SSR) and component architecture (RSC). Components are server components by default; you opt into client interactivity with `"use client"`.
+- **TanStack Start** is server-first for rendering (SSR) but **client-first for component architecture**. Your component tree lives on the client. Server components are an opt-in pattern you pull in when useful — not the default you escape from.
+
+When TanStack describes itself as "isomorphic-first", it refers to this component-level flexibility: the framework doesn't force you onto one side. SSR still happens on the server either way.
+
+### Composition
+
+In Next.js, the server determines the component tree and marks client boundaries with `"use client"`. The framework controls where RSCs are created and how UI recomposes.
+
+TanStack Start inverts this with **Composite Components**: the server defines a layout with open slots (`children`, render props), and the client decides what fills them. The client owns the tree.
+
+### Data flow
+
+Next.js bakes RSC data flow into framework conventions — server components are tightly coupled to the rendering pipeline.
+
+In TanStack Start, RSCs are just React Flight streams — like any other piece of server data. You fetch them through router loaders, TanStack Query, or any async pattern you prefer. This project demonstrates all three approaches.
+
+### Server actions
+
+Next.js uses `"use server"` directives to expose server actions with implicit network boundaries.
+
+TanStack Start rejects `"use server"` actions, citing security concerns around implicit network boundaries. Instead it requires explicit RPCs via `createServerFn()` with hardened serialization and validation.
+
+## Getting Started
 
 ```bash
 npm install
 npm run dev
 ```
 
-# Building For Production
+## Resources
 
-To build this application for production:
-
-```bash
-npm run build
-```
-
-## Testing
-
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
-
-```bash
-npm run test
-```
-
-## Styling
-
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
-
-### Removing Tailwind CSS
-
-If you prefer not to use Tailwind CSS:
-
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
-4. Uninstall the packages: `npm install @tailwindcss/vite tailwindcss -D`
-
-## Linting & Formatting
-
-
-This project uses [eslint](https://eslint.org/) and [prettier](https://prettier.io/) for linting and formatting. Eslint is configured using [tanstack/eslint-config](https://tanstack.com/config/latest/docs/eslint). The following scripts are available:
-
-```bash
-npm run lint
-npm run format
-npm run check
-```
-
-
-
-## Routing
-
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
-```
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Server Functions
-
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
-
-```tsx
-import { createServerFn } from '@tanstack/react-start'
-
-const getServerTime = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  return new Date().toISOString()
-})
-
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState('')
-  
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-  
-  return <div>Server time: {time}</div>
-}
-```
-
-## API Routes
-
-You can create API routes by using the `server` property in your route definitions:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
-
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
-    },
-  },
-})
-```
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
-  },
-  component: PeopleComponent,
-})
-
-function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
-}
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
-
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
+- [React Server Components Your Way](https://tanstack.com/blog/react-server-components) - Blog post on TanStack's approach to RSC
+- [Server Components Guide](https://tanstack.com/start/latest/docs/framework/react/guide/server-components) - Official TanStack Start RSC documentation
+- [RSC Example](https://tanstack.com/start/latest/docs/framework/react/examples/start-basic-rsc) - Official basic RSC example
