@@ -1,15 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { getComponentFromServer } from '#/server/functions.tsx'
+import { createFileRoute, Navigate } from '@tanstack/react-router'
+import { Route as serverComponentRoute } from '#/routes/serverComponent.tsx'
 
 export const Route = createFileRoute('/')({
-  component: App,
-  loader: async () => ({
-    serverComponent: getComponentFromServer(),
-  }),
+  component: () => <Navigate to={serverComponentRoute.to} params />,
 })
-
-function App() {
-  const { serverComponent } = Route.useLoaderData()
-
-  return <>{serverComponent}</>
-}
