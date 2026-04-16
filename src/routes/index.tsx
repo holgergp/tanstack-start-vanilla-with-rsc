@@ -1,6 +1,18 @@
-import { createFileRoute, Navigate } from '@tanstack/react-router'
-import { Route as serverComponentRoute } from '#/routes/serverComponent.tsx'
+import { createFileRoute, Link } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
-  component: () => <Navigate to={serverComponentRoute.to} params />,
+  component: App,
 })
+
+function App() {
+  return (
+    <li>
+      <ul>
+        <Link to={'/serverComponent'}>With Server Components</Link>
+      </ul>
+      <ul>
+        <Link to={'/compositeComponent'}>With Composite Server Components</Link>
+      </ul>
+    </li>
+  )
+}
