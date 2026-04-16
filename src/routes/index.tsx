@@ -6,13 +6,15 @@ export const Route = createFileRoute('/')({
 
 function App() {
   return (
-    <li>
-      <ul>
-        <Link to={'/serverComponent'}>With Server Components</Link>
+    <div className="border-2 border-dashed border-blue-500 p-4">
+      <ul className="flex flex-col gap-2">
+        <li>
+          <Link to={'/serverComponent'}>With Server Components</Link>
+        </li>
+        <li>
+          <Link to={'/compositeComponent'}>With Composite Server Components</Link>
+        </li>
       </ul>
-      <ul>
-        <Link to={'/compositeComponent'}>With Composite Server Components</Link>
-      </ul>
-    </li>
+    </div>
   )
 }

@@ -13,12 +13,25 @@ function WithCompositeComponent() {
     <main className="px-4 py-8">
       <h2 className={'mx-auto max-w-md'}>RSC With Composite Components</h2>
       <CompositeComponent src={src} messageComponent={MyMessageComponent}>
-        <button onClick={() => alert('Clicked!')}>Click me</button>
+        <div className={'border-2 border-dashed border-blue-500 p-4'}>
+          <button
+            className={
+              'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+            }
+            onClick={() => alert('Clicked!')}
+          >
+            Click me
+          </button>
+        </div>
       </CompositeComponent>
     </main>
   )
 }
 
 function MyMessageComponent({ message }: { message: string }) {
-  return <div>{message}</div>
+  return (
+    <div className={'border-2 border-dashed border-blue-500 p-4'}>
+      {message}
+    </div>
+  )
 }

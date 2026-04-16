@@ -5,7 +5,11 @@ import {
 } from '@tanstack/react-start/rsc'
 
 export const getComponentFromServer = createServerFn().handler(async () => {
-  return renderServerComponent(<div>Hello from the server!</div>)
+  return renderServerComponent(
+    <div className={'border-2 border-dashed border-red-500 p-4'}>
+      Hello from the server!
+    </div>,
+  )
 })
 
 export const getCompositeComponent = createServerFn().handler(async () => {
@@ -16,10 +20,12 @@ export const getCompositeComponent = createServerFn().handler(async () => {
     }) => {
       const MessageComponent = props.messageComponent
       return (
-        <>
-          <div>{props.children}</div>
+        <div className={'border-2 border-dashed border-red-500 p-4'}>
+          <div className={'border-2 border-dashed border-red-500 p-4'}>
+            {props.children}
+          </div>
           <MessageComponent message={'Hello From the server!'} />
-        </>
+        </div>
       )
     },
   )
