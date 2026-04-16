@@ -2,6 +2,7 @@ import { createServerFn } from '@tanstack/react-start'
 import {
   createCompositeComponent,
   renderServerComponent,
+  renderToReadableStream,
 } from '@tanstack/react-start/rsc'
 
 export const getComponentFromServer = createServerFn().handler(async () => {
@@ -31,4 +32,12 @@ export const getCompositeComponent = createServerFn().handler(async () => {
   )
 
   return { src }
+})
+
+export const getRenderableStream = createServerFn().handler(async () => {
+  return renderToReadableStream(
+    <div className={'border-2 border-dashed border-red-500 p-4'}>
+      I am streaming from the server to tanstack query
+    </div>,
+  )
 })

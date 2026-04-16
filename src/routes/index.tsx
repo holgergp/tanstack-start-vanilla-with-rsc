@@ -12,7 +12,12 @@ function App() {
           <Link to={'/serverComponent'}>With Server Components</Link>
         </li>
         <li>
-          <Link to={'/compositeComponent'}>With Composite Server Components</Link>
+          <Link to={'/compositeComponent'}>
+            With Composite Server Components
+          </Link>
+        </li>
+        <li>
+          <Link to={'/componentByQuery'}>Get Components by Query</Link>
         </li>
       </ul>
     </div>

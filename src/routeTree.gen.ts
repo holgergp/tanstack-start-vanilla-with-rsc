@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServerComponentRouteImport } from './routes/serverComponent'
 import { Route as CompositeComponentRouteImport } from './routes/compositeComponent'
+import { Route as ComponentByQueryRouteImport } from './routes/componentByQuery'
 import { Route as IndexRouteImport } from './routes/index'
 
 const ServerComponentRoute = ServerComponentRouteImport.update({
@@ -23,6 +24,11 @@ const CompositeComponentRoute = CompositeComponentRouteImport.update({
   path: '/compositeComponent',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentByQueryRoute = ComponentByQueryRouteImport.update({
+  id: '/componentByQuery',
+  path: '/componentByQuery',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,43 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/componentByQuery': typeof ComponentByQueryRoute
   '/compositeComponent': typeof CompositeComponentRoute
   '/serverComponent': typeof ServerComponentRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/componentByQuery': typeof ComponentByQueryRoute
   '/compositeComponent': typeof CompositeComponentRoute
   '/serverComponent': typeof ServerComponentRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/componentByQuery': typeof ComponentByQueryRoute
   '/compositeComponent': typeof CompositeComponentRoute
   '/serverComponent': typeof ServerComponentRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/compositeComponent' | '/serverComponent'
+  fullPaths:
+    | '/'
+    | '/componentByQuery'
+    | '/compositeComponent'
+    | '/serverComponent'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/compositeComponent' | '/serverComponent'
-  id: '__root__' | '/' | '/compositeComponent' | '/serverComponent'
+  to: '/' | '/componentByQuery' | '/compositeComponent' | '/serverComponent'
+  id:
+    | '__root__'
+    | '/'
+    | '/componentByQuery'
+    | '/compositeComponent'
+    | '/serverComponent'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ComponentByQueryRoute: typeof ComponentByQueryRoute
   CompositeComponentRoute: typeof CompositeComponentRoute
   ServerComponentRoute: typeof ServerComponentRoute
 }
@@ -75,6 +94,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompositeComponentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/componentByQuery': {
+      id: '/componentByQuery'
+      path: '/componentByQuery'
+      fullPath: '/componentByQuery'
+      preLoaderRoute: typeof ComponentByQueryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +113,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ComponentByQueryRoute: ComponentByQueryRoute,
   CompositeComponentRoute: CompositeComponentRoute,
   ServerComponentRoute: ServerComponentRoute,
 }
