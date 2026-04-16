@@ -1,6 +1,6 @@
 # TanStack Start with React Server Components
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/deploy-status/tanstack-start-rsc)](https://tanstack-start-rsc.netlify.app/)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/029d907d-3a65-459d-b9de-8da7988a28c0/deploy-status)](https://app.netlify.com/projects/tanstack-start-rsc/deploys)
 
 **Live demo:** [tanstack-start-rsc.netlify.app](https://tanstack-start-rsc.netlify.app/)
 
