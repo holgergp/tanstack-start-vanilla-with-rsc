@@ -6,7 +6,12 @@ export const Route = createFileRoute('/')({
 
 function App() {
   return (
-    <div className="border-2 border-dashed border-blue-500 p-4">
+    <main className="p-4 border-2 border-dashed border-blue-500">
+      <h1 className={'font-bold py-2'}>Tanstack Start and RSC</h1>
+      <section className={'py-2'}>
+        This explores Tanstack Starts current capabilities with RSC and its
+        differences to Next.js
+      </section>
       <ul className="flex flex-col gap-2">
         <li>
           <Link to={'/serverComponent'}>With Server Components</Link>
@@ -20,6 +25,6 @@ function App() {
           <Link to={'/componentByQuery'}>Get Components by Query</Link>
         </li>
       </ul>
-    </div>
+    </main>
   )
 }
