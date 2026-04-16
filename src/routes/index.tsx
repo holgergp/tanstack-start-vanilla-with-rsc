@@ -22,7 +22,9 @@ function App() {
           </Link>
         </li>
         <li>
-          <Link to={'/componentByQuery'}>Get Components by Query</Link>
+          <Link to={'/componentByQuery'}>
+            With Components loaded by Tanstack Query
+          </Link>
         </li>
       </ul>
     </main>
